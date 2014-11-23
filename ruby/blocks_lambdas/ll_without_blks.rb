@@ -32,21 +32,13 @@ class LinkList
 
   def list_elements
     elements = []
-    current_pointer = @head
-    while current_pointer != nil
-      elements << current_pointer.data
-      current_pointer = current_pointer.next_node
-    end
+    traverse_list_upto_current_pointer_not_nil {elements << @current_pointer.data}
     puts  "Linked List elements - #{elements.join("->")}" 
   end
 
   def list_count
     count = 0
-    current_pointer = @head
-    while current_pointer != nil
-      current_pointer = current_pointer.next_node
-      count += 1
-    end
+    traverse_list_upto_current_pointer_not_nil {count += 1}
     puts "List size - #{count}"
   end
 
@@ -57,7 +49,15 @@ class LinkList
 
   def traverse_list
     @current_pointer = @head
-    while @current_pointer.next_node != nil      
+    while @current_pointer.next_node != nil
+      @current_pointer = @current_pointer.next_node
+    end
+  end
+
+  def traverse_list_upto_current_pointer_not_nil
+    @current_pointer = @head
+    while @current_pointer != nil
+      yield
       @current_pointer = @current_pointer.next_node
     end
   end
